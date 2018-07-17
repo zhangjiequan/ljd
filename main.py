@@ -34,93 +34,96 @@ import ljd.ast.slotworks
 import ljd.ast.unwarper
 import ljd.ast.mutator
 import ljd.lua.writer
-
+#zzw 20180714 support str encode
+import gconfig
 
 def dump(name, obj, level=0):
-	indent = level * '\t'
+    indent = level * '\t'
 
-	if name is not None:
-		prefix = indent + name + " = "
-	else:
-		prefix = indent
+    if name is not None:
+        prefix = indent + name + " = "
+    else:
+        prefix = indent
 
-	if isinstance(obj, (int, float, str)):
-		print(prefix + str(obj))
-	elif isinstance(obj, list):
-		print (prefix + "[")
+    if isinstance(obj, (int, float, str)):
+        print(prefix + str(obj))
+    elif isinstance(obj, list):
+        print (prefix + "[")
 
-		for value in obj:
-			dump(None, value, level + 1)
+        for value in obj:
+            dump(None, value, level + 1)
 
-		print (indent + "]")
-	elif isinstance(obj, dict):
-		print (prefix + "{")
+        print (indent + "]")
+    elif isinstance(obj, dict):
+        print (prefix + "{")
 
-		for key, value in obj.items():
-			dump(key, value, level + 1)
+        for key, value in obj.items():
+            dump(key, value, level + 1)
 
-		print (indent + "}")
-	else:
-		print (prefix + obj.__class__.__name__)
+        print (indent + "}")
+    else:
+        print (prefix + obj.__class__.__name__)
 
-		for key in dir(obj):
-			if key.startswith("__"):
-				continue
+        for key in dir(obj):
+            if key.startswith("__"):
+                continue
 
-			val = getattr(obj, key)
-			dump(key, val, level + 1)
+            val = getattr(obj, key)
+            dump(key, val, level + 1)
 
 
 def main():
-	file_in = sys.argv[1]
+    file_in = sys.argv[1]
 
-	header, prototype = ljd.rawdump.parser.parse(file_in)
+    header, prototype = ljd.rawdump.parser.parse(file_in)
+    #print ("good")
+    if not prototype:
+        return 1
 
-	if not prototype:
-		return 1
+    # TODO: args
+    # ljd.pseudoasm.writer.write(sys.stdout, header, prototype)
 
-	# TODO: args
-	# ljd.pseudoasm.writer.write(sys.stdout, header, prototype)
+    ast = ljd.ast.builder.build(prototype)
 
-	ast = ljd.ast.builder.build(prototype)
+    assert ast is not None
 
-	assert ast is not None
+    ljd.ast.validator.validate(ast, warped=True)
 
-	ljd.ast.validator.validate(ast, warped=True)
+    ljd.ast.mutator.pre_pass(ast)
 
-	ljd.ast.mutator.pre_pass(ast)
+    # ljd.ast.validator.validate(ast, warped=True)
 
-	# ljd.ast.validator.validate(ast, warped=True)
+    ljd.ast.locals.mark_locals(ast)
 
-	ljd.ast.locals.mark_locals(ast)
+    # ljd.ast.validator.validate(ast, warped=True)
 
-	# ljd.ast.validator.validate(ast, warped=True)
+    ljd.ast.slotworks.eliminate_temporary(ast)
 
-	ljd.ast.slotworks.eliminate_temporary(ast)
+    # ljd.ast.validator.validate(ast, warped=True)
 
-	# ljd.ast.validator.validate(ast, warped=True)
+    if True:
+        ljd.ast.unwarper.unwarp(ast)
 
-	if True:
-		ljd.ast.unwarper.unwarp(ast)
+        # ljd.ast.validator.validate(ast, warped=False)
 
-		# ljd.ast.validator.validate(ast, warped=False)
+        if True:
+            ljd.ast.locals.mark_local_definitions(ast)
 
-		if True:
-			ljd.ast.locals.mark_local_definitions(ast)
+            # ljd.ast.validator.validate(ast, warped=False)
 
-			# ljd.ast.validator.validate(ast, warped=False)
+            ljd.ast.mutator.primary_pass(ast)
 
-			ljd.ast.mutator.primary_pass(ast)
+            ljd.ast.validator.validate(ast, warped=False)
 
-			ljd.ast.validator.validate(ast, warped=False)
+    ljd.lua.writer.write(sys.stdout, ast)
 
-	ljd.lua.writer.write(sys.stdout, ast)
-
-	return 0
+    return 0
 
 
 if __name__ == "__main__":
-	retval = main()
-	sys.exit(retval)
+    # zzw 20180714 support str encode
+    gconfig.gFlagDic['strEncode'] = 'utf-8'
+    retval = main()
+    sys.exit(retval)
 
 # vim: ts=8 noexpandtab nosmarttab softtabstop=8 shiftwidth=8
