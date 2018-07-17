@@ -7,6 +7,7 @@ import struct
 
 import ljd.bytecode.constants
 
+import gconfig
 
 BCDUMP_KGC_CHILD = 0
 BCDUMP_KGC_TAB = 1
@@ -55,8 +56,10 @@ def _read_complex_constants(parser, complex_constants):
 			length = constant_type - BCDUMP_KGC_STR
 
 			string = parser.stream.read_bytes(length)
-
-			complex_constants.append(string.decode("ascii"))
+			#print (string.decode("unicode-escape"))
+			#print(str(complex_constants))
+			#zzw 20180714 support str encode
+			complex_constants.append(string.decode(gconfig.gFlagDic['strEncode']))
 		elif constant_type == BCDUMP_KGC_TAB:
 			table = ljd.bytecode.constants.Table()
 
@@ -157,8 +160,8 @@ def _read_table_item(parser):
 
 	if data_type >= BCDUMP_KTAB_STR:
 		length = data_type - BCDUMP_KTAB_STR
-
-		return parser.stream.read_bytes(length).decode("ascii")
+		# zzw 20180714 support str encode
+		return parser.stream.read_bytes(length).decode(gconfig.gFlagDic['strEncode'])
 
 	elif data_type == BCDUMP_KTAB_INT:
 		return _read_signed_int(parser)

@@ -39,7 +39,7 @@ class BinStream():
 									.format(size))
 
 		data = self.fd.read(size)
-		self.pos += size
+		self.pos += len(data)#size
 
 		return data
 

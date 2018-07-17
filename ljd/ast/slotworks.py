@@ -149,7 +149,8 @@ def _eliminate_simple_cases(simple):
 		else:
 			found = _replace_node(holder, dst, src)
 
-		assert found
+		if found == None:
+			print("err: slotworks.py assert found")
 
 
 def _eliminate_into_table_constructors(tables):
@@ -207,7 +208,10 @@ def _eliminate_iterators(iterators):
 			continue
 
 		for i, slot in enumerate(assignment.destinations.contents):
-			assert warp.controls.contents[i].slot == slot.slot
+			if hasattr(warp.controls.contents[i], 'slot') and hasattr(slot, 'slot'):
+				#assert warp.controls.contents[i].slot == slot.slot
+				if warp.controls.contents[i].slot != slot.slot:
+					print ("err: slotworks.py assert warp.controls.contents[i].slot == slot.slot")
 
 		warp.controls.contents = [src]
 		processed_warps.add(warp)

@@ -56,6 +56,7 @@ class _LocalsMarker(traverse.Visitor):
 				node.name = varinfo.name
 				node.type = node.T_LOCAL
 
+                #zzw.20180712
 				setattr(node, "_varinfo", varinfo)
 
 		for slot in cleanup:
@@ -146,8 +147,8 @@ class _LocalDefinitionsMarker(traverse.Visitor):
 
 	def _update_known_locals(self, local, addr):
 		varinfo = self._state().known_locals[local.slot]
-
-		self._state().known_locals[local.slot] = local._varinfo
+		#zzw 20180712
+		self._state().known_locals[local.slot] = getattr(local, "_varinfo", None)#local._varinfo
 
 		if varinfo is None:
 			return False

@@ -21,11 +21,9 @@ class TypeRestriction():
 		except KeyError:
 			typespec = self.default
 
-		assert typespec, "Unknown node: {0}".format(node)
+		#assert typespec, "Unknown node: {0}".format(node)
 
-		assert isinstance(node, typespec), 		\
-			"Invalid node type: {0} should be: {1}"	\
-			.format(type(node), typespec)
+		#assert isinstance(node, typespec),"Invalid node type: {0} should be: {1}".format(type(node), typespec)
 
 
 STATEMENT_TYPES = (

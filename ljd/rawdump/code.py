@@ -35,6 +35,9 @@ _OPCODES = (
 	(0x0E, 	instructions.IST),  # @UndefinedVariable
 	(0x0F, 	instructions.ISF),  # @UndefinedVariable
 
+	(0x0E, 	instructions.ISTYPE),  # @UndefinedVariable
+	(0x0F, 	instructions.ISNUM),  # @UndefinedVariable
+
 	# Unary ops
 
 	(0x10, 	instructions.MOV),  # @UndefinedVariable
@@ -100,12 +103,14 @@ _OPCODES = (
 	(0x36, 	instructions.TGETV),  # @UndefinedVariable
 	(0x37, 	instructions.TGETS),  # @UndefinedVariable
 	(0x38, 	instructions.TGETB),  # @UndefinedVariable
+	(0x38, 	instructions.TGETR),  # @UndefinedVariable
 
 	(0x39, 	instructions.TSETV),  # @UndefinedVariable
 	(0x3A, 	instructions.TSETS),  # @UndefinedVariable
 	(0x3B, 	instructions.TSETB),  # @UndefinedVariable
 
 	(0x3C, 	instructions.TSETM),  # @UndefinedVariable
+	(0x3B, 	instructions.TSETR),  # @UndefinedVariable
 
 	# Calls and vararg handling
 
@@ -176,7 +181,7 @@ def read(parser):
 
 	if instruction_class is None:
 		errprint("Warning: unknown opcode {0:08x}", opcode)
-		instruction_class = instructions.UNKN  # @UndefinedVariable
+		instruction_class = instructions.UNKNW  # @UndefinedVariable #zzw.20180714
 
 	instruction = instruction_class()
 
@@ -221,9 +226,10 @@ def _process_operand(parser, operand_type, operand):
 
 def _init():
 	global _OPCODES, _MAP
-
-	for opcode, instruction in sorted(_OPCODES, key=lambda x: x[0]):
-		_MAP[opcode] = instruction
+	opcode = 0
+	for instruction in _OPCODES:
+		_MAP[opcode] = instruction[1]
+		opcode = opcode + 1
 
 	del globals()["_init"]
 	del globals()["_OPCODES"]
