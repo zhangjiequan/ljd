@@ -11,6 +11,7 @@ luajit源码中的opcode，写进instruction.py 和 code.py
 
 使用说明：python main.py  "path of luajit-bytecode"
 
+解释文档：http://www.freebuf.com/column/177810.html
 
 参考：https://github.com/NightNord/ljd
       https://github.com/feicong/lua_re/blob/master/lua/lua_re3.md
