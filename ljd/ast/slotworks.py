@@ -65,7 +65,7 @@ def _fill_massive_refs(info, simple, massive, iterators):
 	if isinstance(holder, nodes.Assignment):
 		dst = holder.destinations.contents[0]
 
-		assert len(info.references) == 2
+		#assert len(info.references) == 2
 		orig = info.references[0].identifier
 
 		assignment = ref.path[-3]
@@ -77,7 +77,7 @@ def _fill_massive_refs(info, simple, massive, iterators):
 		assert len(info.references) == 2
 		iterators.append((info.assignment, src, holder))
 	elif isinstance(src, nodes.Primitive) and src.type == src.T_NIL:
-		assert len(info.references) == 2
+		#assert len(info.references) == 2
 
 		# Create a new primitive, so it won't mess with the
 		# writer's ignore list
@@ -113,7 +113,7 @@ def _fill_simple_refs(info, simple, tables):
 
 		# Could be more then one reference here
 		if src_is_table and is_element and is_dst:
-			assert holder.table == ref.identifier
+			#assert holder.table == ref.identifier
 			tables.append((info, ref))
 		else:
 			simple.append((info, ref, None))

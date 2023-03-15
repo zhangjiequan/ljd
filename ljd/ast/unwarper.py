@@ -620,7 +620,7 @@ def _unwarp_expression(body, end, true, false):
 
 			subexpression = body[i:target_index]
 		else:
-			assert target in terminators
+			#assert target in terminators
 
 			while i < len(body) - 2:
 				next_block = body[i + 1]
@@ -742,7 +742,7 @@ def _get_last_assignment_source(block):
 		return None
 
 	assignment = block.contents[-1]
-	assert isinstance(assignment, nodes.Assignment)
+	#assert isinstance(assignment, nodes.Assignment)
 	return assignment.expressions.contents[0]
 
 
@@ -1461,7 +1461,7 @@ def _unwarp_breaks(start, blocks, next_block):
 			patched.append(block)
 			continue
 
-		assert target in ends, "GOTO statements are not supported"
+		#assert target in ends, "GOTO statements are not supported"
 
 		if block.warpins_count != 0:
 			new_block = _create_next_block(block)

@@ -60,9 +60,9 @@ def dump(name, obj, level=0):
         for key, value in obj.items():
             dump(key, value, level + 1)
 
-        print (indent + "}")
+        print(indent + "}")
     else:
-        print (prefix + obj.__class__.__name__)
+        print(prefix + obj.__class__.__name__)
 
         for key in dir(obj):
             if key.startswith("__"):
@@ -76,7 +76,7 @@ def main():
     file_in = sys.argv[1]
 
     header, prototype = ljd.rawdump.parser.parse(file_in)
-    #print ("good")
+    print("good")
     if not prototype:
         return 1
 
@@ -102,7 +102,7 @@ def main():
     # ljd.ast.validator.validate(ast, warped=True)
 
     if True:
-        ljd.ast.unwarper.unwarp(ast)
+       # ljd.ast.unwarper.unwarp(ast)
 
         # ljd.ast.validator.validate(ast, warped=False)
 
@@ -121,8 +121,8 @@ def main():
 
 
 if __name__ == "__main__":
-    # zzw 20180714 support str encode
-    gconfig.gFlagDic['strEncode'] = 'utf-8'
+    # zzw 20180714 support str encode utf-8
+    gconfig.gFlagDic['strEncode'] = 'ANSI'
     retval = main()
     sys.exit(retval)
 

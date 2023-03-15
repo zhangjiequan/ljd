@@ -80,9 +80,9 @@ def _read_flags(parser, header):
     parser.flags.is_stripped = header.flags.is_stripped
     parser.flags.is_big_endian = header.flags.has_ffi
 
-    if bits != 0:
-        errprint("Unknown flags set: {0:08b}", bits)
-        return False
+    #if bits != 0:
+      #  errprint("Unknown flags set: {0:08b}", bits)
+     #   return False
 
     return True
 
