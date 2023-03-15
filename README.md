@@ -1,3 +1,14 @@
+# What is new ?
+
+Support decompilation of 64 bit luajit bytecode
+支持反编译64位luajit字节码
+
+## Ref
+
+[luajit反编译、解密 - 『软件调试区』 - 吾爱破解 - LCG - LSG |安卓破解|病毒分析|www.52pojie.cn](https://www.52pojie.cn/thread-1378796-1-1.html)
+
+# zzwlpx's ReadMe
+
 代码在fork https://github.com/NightNord/ljd 的基础上修改的
 
 主要修正了原版本没有将_read_header函数解析过的header中的flag值带进_read_protoypes。
