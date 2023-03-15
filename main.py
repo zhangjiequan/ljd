@@ -76,7 +76,7 @@ def main():
     file_in = sys.argv[1]
 
     header, prototype = ljd.rawdump.parser.parse(file_in)
-    print("good")
+    #print ("good")
     if not prototype:
         return 1
 
