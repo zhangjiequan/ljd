@@ -121,8 +121,8 @@ def main():
 
 
 if __name__ == "__main__":
-    # zzw 20180714 support str encode utf-8
-    gconfig.gFlagDic['strEncode'] = 'ANSI'
+    # zzw 20180714 support str encode
+    gconfig.gFlagDic['strEncode'] = 'utf-8'
     retval = main()
     sys.exit(retval)
 
