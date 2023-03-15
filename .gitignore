@@ -36,3 +36,10 @@ nosetests.xml
 .project
 .pydevproject
 .*.swp
+
+
+.vscode
+
+
+
+
